@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>修仙模拟器</title>
+  <meta name="description" content="一款纯本地运行的修仙模拟器，体验从凡人到仙人的修仙之路。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* 首页专属样式 */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 50%, #1a202c 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 3.5em;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #eab308, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: 1.3em;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn {
+      padding: 16px 40px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .hero-btn-primary {
+      background: #eab308;
+      color: #1e2a3a;
+    }
+
+    .hero-btn-primary:hover {
+      background: #f59e0b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(234, 179, 8, 0.3);
+    }
+
+    .hero-btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* 特性区域 */
+    .features {
+      padding: 80px 20px;
+      background: #f5f6f8;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-title {
+      text-align: center;
+      font-size: 2em;
+      font-weight: 800;
+      color: #1e2a3a;
+      margin-bottom: 12px;
+    }
+
+    .features-subtitle {
+      text-align: center;
+      color: #6b7a8d;
+      margin-bottom: 48px;
+      font-size: 1.1em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      border: 1px solid #e2e5ea;
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.5em;
+      margin-bottom: 16px;
+    }
+
+    .feature-name {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #1e2a3a;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      color: #6b7a8d;
+      line-height: 1.6;
+    }
+
+    /* 游戏截图/预览 */
+    .preview {
+      padding: 80px 20px;
+      background: white;
+    }
+
+    .preview-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .preview-title {
+      font-size: 2em;
+      font-weight: 800;
+      color: #1e2a3a;
+      margin-bottom: 12px;
+    }
+
+    .preview-subtitle {
+      color: #6b7a8d;
+      margin-bottom: 40px;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border: 1px solid #e2e5ea;
+    }
+
+    /* 页脚 */
+    .footer {
+      background: #1e2a3a;
+      color: rgba(255,255,255,0.7);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 1.5em;
+      font-weight: 800;
+      color: #eab308;
+      margin-bottom: 12px;
+    }
+
+    .footer-desc {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .footer-link {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: #eab308;
+    }
+
+    .footer-copyright {
+      font-size: 0.9em;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2em;
+        letter-spacing: 3px;
+      }
+
+      .hero .subtitle {
+        font-size: 1.1em;
+      }
+
+      .hero-btn {
+        padding: 14px 32px;
+        font-size: 1em;
+      }
+
+      .features-title,
+      .preview-title {
+        font-size: 1.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 英雄区域 -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>修仙模拟器</h1>
+      <p class="subtitle">一介凡人，踏上修仙之路<br>能否证道飞升，成就仙人之位？</p>
+      <div class="hero-buttons">
+        <a href="game.html" class="hero-btn hero-btn-primary">开始修仙</a>
+        <a href="#features" class="hero-btn hero-btn-secondary">了解更多</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 特性区域 -->
+  <section class="features" id="features">
+    <div class="features-container">
+      <h2 class="features-title">游戏特色</h2>
+      <p class="features-subtitle">沉浸式修仙体验，每一次选择都影响命运</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧘</div>
+          <div class="feature-name">修炼系统</div>
+          <div class="feature-desc">从练气期到飞升仙界，经历完整的修仙历程。每次修炼都有随机事件，永远不会无聊。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚔️</div>
+          <div class="feature-name">战斗系统</div>
+          <div class="feature-desc">策略性战斗，多种技能选择。暴击、闪避、格挡，每场战斗都充满变数。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📖</div>
+          <div class="feature-name">丰富剧情</div>
+          <div class="feature-desc">25章主线剧情，20000+字的支线任务。每个选择都会影响你的修仙之路。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💕</div>
+          <div class="feature-name">道侣系统</div>
+          <div class="feature-desc">寻找志同道合的道侣，共同修炼。好感度系统，丰富的互动剧情。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🐾</div>
+          <div class="feature-name">灵兽伙伴</div>
+          <div class="feature-desc">收服各种灵兽，培养进化。灵兽会在战斗中助你一臂之力。</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏔️</div>
+          <div class="feature-name">随机副本</div>
+          <div class="feature-desc">探索随机生成的副本，越深入奖励越丰厚。每局都是全新体验。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预览区域 -->
+  <section class="preview">
+    <div class="preview-container">
+      <h2 class="preview-title">游戏预览</h2>
+      <p class="preview-subtitle">现代扁平化设计，清爽舒适的界面</p>
+      <div style="background:#f5f6f8;border-radius:16px;padding:40px;border:1px solid #e2e5ea">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:900px;margin:0 auto">
+          <div style="background:white;border-radius:12px;padding:16px;border:1px solid #e2e5ea">
+            <div style="font-size:0.85em;font-weight:700;color:#1e2a3a;margin-bottom:8px">👤 角色信息</div>
+            <div style="background:#1e2a3a;border-radius:8px;padding:12px;color:white;text-align:center">
+              <div style="font-weight:800">练气期三层</div>
+            </div>
+            <div style="margin-top:8px;font-size:0.8em;color:#6b7a8d">生命: 100/100</div>
+            <div style="font-size:0.8em;color:#6b7a8d">灵力: 50/50</div>
+          </div>
+          <div style="background:white;border-radius:12px;padding:16px;border:1px solid #e2e5ea">
+            <div style="font-size:0.85em;font-weight:700;color:#1e2a3a;margin-bottom:8px">📜 修仙日志</div>
+            <div style="background:#f5f6f8;border-radius:8px;padding:12px;font-size:0.8em;color:#6b7a8d;line-height:1.8">
+              <div>【春】春雷阵阵，灵气充沛</div>
+              <div style="color:#10b981">获得 15 修为</div>
+            </div>
+          </div>
+          <div style="background:white;border-radius:12px;padding:16px;border:1px solid #e2e5ea">
+            <div style="font-size:0.85em;font-weight:700;color:#1e2a3a;margin-bottom:8px">🎒 背包</div>
+            <div style="font-size:0.8em;color:#6b7a8d">
+              <div style="display:flex;justify-content:space-between;padding:4px 0">
+                <span>回气丹</span>
+                <span style="background:#3b82f6;color:white;padding:1px 6px;border-radius:8px;font-size:0.9em">3</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:4px 0">
+                <span>灵草</span>
+                <span style="background:#3b82f6;color:white;padding:1px 6px;border-radius:8px;font-size:0.9em">5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">修仙模拟器</div>
+      <p class="footer-desc">一款纯本地运行的文字修仙模拟器<br>无需联网，永不超时，随时随地修仙</p>
+      <div class="footer-links">
+        <a href="game.html" class="footer-link">开始游戏</a>
+        <a href="#features" class="footer-link">游戏特色</a>
+      </div>
+      <p class="footer-copyright">© 2024 修仙模拟器 - 纯本地运行，数据不上传</p>
+      <p style="margin-top:12px;font-size:0.8em;color:rgba(255,255,255,0.3);letter-spacing:2px">FANSTAR</p>
+    </div>
+  </footer>
+
+  <!-- 水印 -->
+  <div style="position:fixed;bottom:12px;right:16px;z-index:9999;color:rgba(0,0,0,0.12);font-size:0.75em;font-weight:600;letter-spacing:2px;pointer-events:none;user-select:none">
+    FANSTAR
+  </div>
+</body>
+</html>
